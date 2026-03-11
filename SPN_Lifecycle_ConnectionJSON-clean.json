@@ -1,0 +1,80 @@
+{
+  "authentications": {
+    "userAuth": {
+      "authType": "oauth2",
+      "url": "https://login.microsoftonline.com/<TENANT_ID>/oauth2/token",
+      "httpMethod": "POST",
+      "httpParams": {
+        "grant_type": "client_credentials",
+        "client_secret": "<CLIENT_SECRET>",
+        "client_id": "<CLIENT_ID>",
+        "resource": "https://graph.microsoft.com/"
+      },
+      "httpHeaders": {
+        "contentType": "application/x-www-form-urlencoded"
+      },
+      "httpContentType": "application/x-www-form-urlencoded",
+      "expiryError": "ExpiredAuthenticationToken",
+      "authError": [
+        "InvalidAuthenticationToken"
+      ],
+      "retryFailureStatusCode": [
+        401
+      ],
+      "timeOutError": "Read timed out",
+      "errorPath": "error.code",
+      "maxRefreshTryCount": 5,
+      "tokenResponsePath": "access_token",
+      "tokenType": "Bearer",
+      "accessToken": "Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IjNMbFlZUzBTMXlIakp3WmxRUDVyQWlXTWQ0UkNMejR4ZTlwSVdfRko4STAiLCJhbGciOiJSUzI1NiIsIng1dCI6InNNMV95QXhWOEdWNHlOLUI2ajJ4em1pazVBbyIsImtpZCI6InNNMV95QXhWOEdWNHlOLUI2ajJ4em1pazVBbyJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20vIiwiaXNzIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvMDlhNGZlYzgtZDQzZi00NTgxLTk5OTYtYjk4MWY5OWQ2MjRjLyIsImlhdCI6MTc3MjUwNzgyMiwibmJmIjoxNzcyNTA3ODIyLCJleHAiOjE3NzI1MTE3MjIsImFpbyI6ImsyWmdZTmoyYUx2TnRlTVhWTGtjZGk2ODRlWnNBZ0E9IiwiYXBwX2Rpc3BsYXluYW1lIjoiU2F2aXludC1NYXN0ZXIiLCJhcHBpZCI6IjU4MDUzMzg5LTIyZDItNDNmNy04MjMwLTE5NWEyMTdjNzhmYSIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzA5YTRmZWM4LWQ0M2YtNDU4MS05OTk2LWI5ODFmOTlkNjI0Yy8iLCJpZHR5cCI6ImFwcCIsIm9pZCI6IjJhMGVhMDkzLTQ3NTctNDc2Yi1hMmFkLThjNGJkYzUzZDA4NyIsInJoIjoiMS5BVkFBeVA2a0NUX1VnVVdabHJtQi1aMWlUQU1BQUFBQUFBQUF3QUFBQUFBQUFBQUFBQUJRQUEuIiwicm9sZXMiOlsiQXBwbGljYXRpb24uUmVhZFdyaXRlLkFsbCIsIkRpcmVjdG9yeS5SZWFkLkFsbCJdLCJzdWIiOiIyYTBlYTA5My00NzU3LTQ3NmItYTJhZC04YzRiZGM1M2QwODciLCJ0ZW5hbnRfcmVnaW9uX3Njb3BlIjoiTkEiLCJ0aWQiOiIwOWE0ZmVjOC1kNDNmLTQ1ODEtOTk5Ni1iOTgxZjk5ZDYyNGMiLCJ1dGkiOiJGSGludkRaeHhFaTZlT2lTUU5vVEFBIiwidmVyIjoiMS4wIiwid2lkcyI6WyIwOTk3YTFkMC0wZDFkLTRhY2ItYjQwOC1kNWNhNzMxMjFlOTAiXSwieG1zX2FjZCI6MTc3MDkxMjA3NywieG1zX2FjdF9mY3QiOiIzIDkiLCJ4bXNfZnRkIjoiVkw1VkhqcElzbkladml6c0ZiSEVOV0YydGpNdThMb3lSVDlGNC1ONXhQTUJkWE51YjNKMGFDMWtjMjF6IiwieG1zX2lkcmVsIjoiNyAzMCIsInhtc19yZCI6IjAuNDJMbFlCSmlEQkFTNFdBWEV2QTJaMDQ3SjdfU2UwS3hULV95eXh1ZkFVVTVoUVFNbDhiZThReVdjTjBUdGVsQTB2bEpJRkVPSVFGbUJnZzRBS1dCb3R4Q0FtOFN2MHV5TEFub0NqbzVlMWNSZDk4OEFBIiwieG1zX3N1Yl9mY3QiOiIzIDkiLCJ4bXNfdGNkdCI6MTYzNDczNjI4MywieG1zX3RudF9mY3QiOiIzIDE2In0.SWxBUnZO8C8PYBtTalNRDmZagdElllZozarJTHatPLOyWFPEzzD6oaaMzileCuECupsLVFZUHTjVMZS2WynHhIjDexq496vWgQtaypDWV4WwQARzsBsQLaQqqBJE0V5JzdPMNjtiOp2SDFR0PyLzREKuPscvWDPULmBmkw56fsE9ktZEp_tZKi6s8rnflRCataqknEzhalYkWZ_8FtYamTLWdIvwxE9NXsGlwB5QpDz8IKC-tRAJJe4yvKQtwUQq0B-flDbDYhTDw1HeNJ4E5FFVtotOiMIpZFt991faWHprX1-mJcn4hHvlXKQ2FJHVGnJtAvJCEW6eIgf9rkW6sw"
+    },
+    "savAuth": {
+      "authType": "oauth2",
+      "url": "https://<SAVIYNT_TENANT_URL>/ECM/api/login",
+      "httpMethod": "POST",
+      "httpContentType": "application/json",
+      "httpHeaders": {
+        "Content-Type": "application/json"
+      },
+      "httpParams": "{\"username\":\"<SAVIYNT_USERNAME>\",\"password\":\"<SAVIYNT_PASSWORD>\"}",
+      "authError": [
+        "USER_AUTHENTICATION_FAILED",
+        "PARTNER_AUTHENTICATION_FAILED",
+        "AuthenticationFailed"
+      ],
+      "errorPath": "errorCode",
+      "maxRefreshTryCount": 5,
+      "tokenResponsePath": "access_token",
+      "tokenType": "Bearer",
+      "authHeaderName": "Authorization",
+      "accessToken": "Bearer ABCD",
+      "retryFailureStatusCode": [
+        401
+      ]
+    },
+    "savAuthInternal": {
+      "authType": "oauth2",
+      "url": "http://ecm:8080/ECM/api/login",
+      "httpMethod": "POST",
+      "httpContentType": "application/json",
+      "httpHeaders": {
+        "Content-Type": "application/json"
+      },
+      "httpParams": "{\"username\":\"<SAVIYNT_USERNAME>\",\"password\":\"<SAVIYNT_PASSWORD>\"}",
+      "authError": [
+        "USER_AUTHENTICATION_FAILED",
+        "PARTNER_AUTHENTICATION_FAILED",
+        "AuthenticationFailed"
+      ],
+      "errorPath": "errorCode",
+      "maxRefreshTryCount": 5,
+      "tokenResponsePath": "access_token",
+      "tokenType": "Bearer",
+      "authHeaderName": "Authorization",
+      "accessToken": "Bearer ABCD",
+      "retryFailureStatusCode": [
+        401
+      ]
+    }
+  }
+}

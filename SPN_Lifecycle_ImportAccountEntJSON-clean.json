@@ -1,0 +1,41 @@
+{
+  "accountParams": {
+    "connection": "userAuth",
+    "processingType": "SequentialAndIterative",
+    "statusAndThresholdConfig": {
+      "accountThresholdValue": 50,
+      "correlateInactiveAccounts": false,
+      "inactivateAccountsNotInFile": false
+    },
+    "call": {
+      "call1": {
+        "callOrder": 0,
+        "stageNumber": 0,
+        "http": {
+          "url": "https://graph.microsoft.com/v1.0/applications?$filter=startswith(displayName,'<ACCOUNT_FILTER>')&$count=true&$select=id,appId,displayName,passwordCredentials&$top=999",
+          "httpHeaders": {
+            "Authorization": "${access_token}",
+            "Accept": "application/json",
+            "ConsistencyLevel": "eventual"
+          },
+          "httpContentType": "application/json",
+          "httpMethod": "GET"
+        },
+        "listField": "value",
+        "keyField": "accountID",
+        "colsToPropsMap": {
+          "accountID": "id~#~char",
+          "name": "displayName~#~char",
+          "displayName": "displayName~#~char",
+          "customproperty41": "appId~#~char",
+          "customproperty42": "id~#~char",
+          "accounttype": "#CONST#FIREFIGHTERID~#~char"
+        },
+        "disableAction": "Leave",
+        "deleteAccountAction": "Leave"
+      }
+    }
+  },
+  "entitlementParams": {},
+  "acctEntParams": {}
+}

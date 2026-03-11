@@ -1,0 +1,158 @@
+{
+  "callOrder": [
+    "CreateMirrorAccount",
+    "PAMEnableMirror",
+    "GetCurrentCreds",
+    "AddSecret",
+    "StoreToVault",
+    "ReadFromVault",
+    "StoreAttributes",
+    "RemoveOldSecret"
+  ],
+  "call": [
+    {
+      "name": "CreateMirrorAccount",
+      "connection": "savAuth",
+      "url": "https://<SAVIYNT_TENANT_URL>/ECM/api/v5/createAccount",
+      "httpMethod": "POST",
+      "httpParams": "{\"securitysystem\":\"<VAULT_SECURITY_SYSTEM>\",\"endpoint\":\"<VAULT_ENDPOINT>\",\"name\":\"${account.name}\",\"displayname\":\"${account.name}\",\"customproperty41\":\"${account.customproperty41}\",\"customproperty42\":\"${account.customproperty42}\"}",
+      "httpHeaders": {
+        "Authorization": "${access_token}",
+        "Content-Type": "application/json"
+      },
+      "httpContentType": "application/json",
+      "successResponses": {
+        "statusCode": [200]
+      },
+      "unsuccessResponses": {
+        "statusCode": [400, 500]
+      }
+    },
+    {
+      "name": "PAMEnableMirror",
+      "connection": "savAuth",
+      "url": "https://<SAVIYNT_TENANT_URL>/ECM/api/v5/updateAccount",
+      "httpMethod": "POST",
+      "httpParams": "{\"securitysystem\":\"<VAULT_SECURITY_SYSTEM>\",\"endpoint\":\"<VAULT_ENDPOINT>\",\"name\":\"${account.name}\",\"accounttype\":\"FIREFIGHTERID\",\"accountConfig\":\"{\\\"defaultrequestabletimeforidinsecs\\\":\\\"0\\\",\\\"defaultrequestabletimeinsecs\\\":\\\"36000\\\",\\\"maxrequestabletimeinsecs\\\":\\\"36000\\\",\\\"diffbetweenrequests\\\":\\\"0\\\",\\\"authenticationType\\\":\\\"\\\",\\\"maxrequestabletimeforidinsecs\\\":\\\"0\\\",\\\"Saviynt-Status\\\":{\\\"manualRotation\\\":\\\"ENABLED\\\",\\\"rotateOnExpiry\\\":\\\"DISABLED\\\",\\\"allowManualPwdEntry\\\":\\\"ENABLED\\\",\\\"showPassword\\\":\\\"ENABLED\\\",\\\"rotateOnCheckin\\\":\\\"DISABLED\\\",\\\"pamState\\\":\\\"ENABLED\\\",\\\"pamType\\\":\\\"CREDENTIAL\\\",\\\"errorDetails\\\":\\\"\\\",\\\"justInTime\\\":\\\"\\\"}}\"}",
+      "httpHeaders": {
+        "Authorization": "${access_token}",
+        "Content-Type": "application/json"
+      },
+      "httpContentType": "application/json",
+      "successResponses": {
+        "statusCode": [200]
+      },
+      "unsuccessResponses": {
+        "statusCode": [400, 500]
+      }
+    },
+    {
+      "name": "GetCurrentCreds",
+      "connection": "userAuth",
+      "url": "https://graph.microsoft.com/v1.0/applications/${account.customproperty42}",
+      "httpMethod": "GET",
+      "httpParams": "",
+      "httpHeaders": {
+        "Authorization": "${access_token}",
+        "Content-Type": "application/json"
+      },
+      "httpContentType": "application/json",
+      "successResponses": {
+        "statusCode": [200]
+      },
+      "unsuccessResponses": {
+        "statusCode": [400, 401, 403, 404]
+      }
+    },
+    {
+      "name": "AddSecret",
+      "connection": "userAuth",
+      "url": "https://graph.microsoft.com/v1.0/applications/${account.customproperty42}/addPassword",
+      "httpMethod": "POST",
+      "httpParams": "{\"passwordCredential\":{\"displayName\":\"Saviynt-Rotated-${new java.text.SimpleDateFormat('yyyy-MM-dd-HHmmss').format(new java.util.Date())}\"}}",
+      "httpHeaders": {
+        "Authorization": "${access_token}",
+        "Content-Type": "application/json"
+      },
+      "httpContentType": "application/json",
+      "successResponses": {
+        "statusCode": [200, 201]
+      },
+      "unsuccessResponses": {
+        "statusCode": [400, 401, 403, 409]
+      }
+    },
+    {
+      "name": "StoreToVault",
+      "connection": "userAuth",
+      "url": "<VAULT_SECRET_PATH>/${account.name}",
+      "httpMethod": "POST",
+      "httpParams": "{\"data\":{\"accountName\":\"${account.name}\",\"password\":\"${response.AddSecret.message.secretText}\"}}",
+      "httpHeaders": {
+        "X-Vault-Token": "<VAULT_TOKEN>",
+        "Content-Type": "application/json"
+      },
+      "httpContentType": "application/json",
+      "successResponses": {
+        "statusCode": [200, 204]
+      },
+      "unsuccessResponses": {
+        "statusCode": [400, 401, 403, 412]
+      }
+    },
+    {
+      "name": "ReadFromVault",
+      "connection": "userAuth",
+      "url": "<VAULT_SECRET_PATH>/${account.name}",
+      "httpMethod": "GET",
+      "httpParams": "",
+      "httpHeaders": {
+        "X-Vault-Token": "<VAULT_TOKEN>",
+        "Content-Type": "application/json"
+      },
+      "httpContentType": "application/json",
+      "successResponses": {
+        "statusCode": [200]
+      },
+      "unsuccessResponses": {
+        "statusCode": [400, 401, 403, 404]
+      }
+    },
+    {
+      "name": "StoreAttributes",
+      "connection": "savAuth",
+      "url": "https://<SAVIYNT_TENANT_URL>/ECM/api/v5/updateAccount",
+      "httpMethod": "POST",
+      "httpParams": "{\"securitysystem\":\"<VAULT_SECURITY_SYSTEM>\",\"endpoint\":\"<VAULT_ENDPOINT>\",\"name\":\"${account.name}\",\"customproperty41\":\"${account.customproperty41}\",\"customproperty42\":\"${account.customproperty42}\"}",
+      "httpHeaders": {
+        "Authorization": "${access_token}",
+        "Content-Type": "application/json"
+      },
+      "httpContentType": "application/json",
+      "successResponses": {
+        "statusCode": [200]
+      },
+      "unsuccessResponses": {
+        "statusCode": [400, 401, 403, 500]
+      }
+    },
+    {
+      "name": "RemoveOldSecret",
+      "connection": "userAuth",
+      "url": "https://graph.microsoft.com/v1.0/applications/${account.customproperty42}/removePassword",
+      "httpMethod": "POST",
+      "httpParams": "{\"keyId\":\"${response.GetCurrentCreds.message.passwordCredentials[0].keyId}\"}",
+      "httpHeaders": {
+        "Authorization": "${access_token}",
+        "Content-Type": "application/json"
+      },
+      "httpContentType": "application/json",
+      "successResponses": {
+        "statusCode": [200, 204]
+      },
+      "unsuccessResponses": {
+        "statusCode": [400, 401, 403, 409]
+      }
+    }
+  ]
+}
