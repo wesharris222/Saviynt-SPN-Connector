@@ -59,8 +59,6 @@ Defines two **active** auth contexts:
 
 There is a known consistency problem with the **`RemoveOldSecret`** step: because of Azure Entra ID concurrency/replication controls, generating a new secret and removing the old one in rapid succession can fail (e.g. a `409 Conflict`) if Entra hasn't yet propagated the new credential.
 
-See the issue thread for the **padding-delay workaround**.
-
 ---
 
 ## 🚀 Setup
